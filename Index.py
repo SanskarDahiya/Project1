@@ -12,6 +12,8 @@ C_List=[c1,c2,c3]
 def index():
    return render_template("Home.html")
    #return render_template("Companies.html",data=C_List,len = len(C_List)-1)
-
+@app.route("/blog/")
+def blog_page():
+   return render_template("blog.html")
 if __name__ == '__main__':
    app.run(debug = True)
