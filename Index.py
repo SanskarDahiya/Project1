@@ -1,4 +1,7 @@
 from flask import Flask, render_template, request
+import sqlite3 as sql
+DB1 = 'database/e-learning.db'
+
 app = Flask(__name__)
 """
 Variables
@@ -15,5 +18,57 @@ def index():
 @app.route("/blog/")
 def blog_page():
    return render_template("blog.html")
+
+@app.route("/getdata/",methods = ['POST', 'GET'])
+def getdata():
+    data = 0
+    if request.method=='POST':
+        data = request.form
+        #print(data)
+    if len(data)==4:
+        try:
+            con = sql.connect(DB1)
+            cur = con.cursor()
+            cur.execute('INSERT INTO userlogin VALUES ("'+str(data['name'])+'","'+str(data['email'])+'","'+str(data['password'])+'","'+str(data['contact'])+'");')
+            con.commit()
+            data = "Sucess"
+        except Exception as e:
+            data = e
+            con.rollback()
+    else:
+        u = data['email']
+        p = data['password']
+        try:
+            con = sql.connect(DB1)
+            cur = con.cursor()
+            cur.execute("select * from userlogin where mail like '"+u+"' AND pwd like '"+p+"'")
+            con.commit()
+            data = cur.fetchall()
+            if data:
+                return render_template('home_logIN.html',data = data)
+            else:
+                return render_template('Home.html',data='Invalid Username or Password')
+        except Exception as e:
+            con.rollback()
+    return render_template('Home.html',data = data)
+
+
+@app.route('/database/',methods=['POST','GET'])
+def dataabse():
+    data = 0
+    if request.method=='POST':
+        data = str(request.form['name'])
+    try:
+        con = sql.connect(DB1)
+        cur = con.cursor()
+        cur.execute(data)
+        con.commit()
+        data = "Sucess"
+        data = cur.fetchall()
+    except Exception as e:
+        data = e
+        con.rollback()
+    return render_template('database.html',data = data)
+
 if __name__ == '__main__':
    app.run(debug = True)
