@@ -1,8 +1,11 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request,session,redirect,g
+import os
+
 import sqlite3 as sql
 DB1 = 'database/e-learning.db'
 
 app = Flask(__name__)
+app.secret_key = os.urandom(24)
 """
 Variables
 """
@@ -11,15 +14,46 @@ c1=["2017","DAFFODIL SOFTWARE LTD., GURUGRAM","http://www.unthinkable.co/","---"
 c2=["2018","DAFFODIL SOFTWARE LTD., GURUGRAM","http://www.unthinkable.co/","---","---","2WT/TR/HR","---","January","--- LPA","--- year"]
 c3=["2019","DAFFODIL SOFTWARE LTD., GURUGRAM","http://www.unthinkable.co/",d1,"None","Tech Test(Online),Wrriten Test,TR,HR","Gurugram","January","4-5 LPA","1.5 year"]
 C_List=[c1,c2,c3]
-@app.route("/")
+@app.route("/", methods=['GET', 'POST'])
 def index():
-   return render_template("Home.html")
-   #return render_template("Companies.html",data=C_List,len = len(C_List)-1)
+    if request.method=='POST':
+        session.pop['user',None]
+        if request.form['password'] == 'password':
+            session['user'] = request.form['email']
+            return redirect('home_logIN.html')
+    # return render_template("Companies.html",data=C_List,len = len(C_List)-1)
+    return render_template("Home.html")
+
+@app.route('/getsession')
+def getsession():
+    if 'user' in session:
+        return session['user']
+    return 'Please Login First'
+
+@app.route('/dropsession')
+def dropsession():
+    session.pop['user',None]
+    return 'Dropped!'
+
+
+@app.route('/home_logIN')
+def home_logIN():
+    if g.user:
+        return render_template("home_logIN,html")
+    return redirect('Home')
+
+@app.before_request
+def before_request():
+    g.user = None
+    if 'user' in session:
+        g.user = session['user']
+
 @app.route("/blog/")
 def blog_page():
-   return render_template("blog.html")
+    return render_template("blog.html")
 
-@app.route("/getdata/",methods = ['POST', 'GET'])
+
+@app.route("/getdata/", methods=['POST', 'GET'])
 def getdata():
     data = 0
     if request.method=='POST':
