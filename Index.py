@@ -48,9 +48,13 @@ def before_request():
     if 'user' in session:
         g.user = session['user']
 
+
+pqr = [['JINDU','j@j.com','12-12-1963','TABLES',"""Tables require a bit of study and practice, but are well worth the effort because they are the single most powerful tool for controlling page appearance! Look for a couple of "neat tricks" at the bottom of the pageA table may have only one cell, or many. A typical table might look like:"""],
+       ['CHUZZA','C@chuza.com','12-12-2020','Heading','Description']]
+
 @app.route("/blog/")
 def blog_page():
-    return render_template("blog.html")
+    return render_template("blog.html",data = pqr)
 
 
 @app.route("/getdata/", methods=['POST', 'GET'])
