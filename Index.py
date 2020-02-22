@@ -1,11 +1,15 @@
 from flask import Flask, render_template, request,session,redirect,g
+from flask import Blueprint, abort
 import os
 import csv
 import sqlite3 as sql
+from FlaskScripts.users import users
 DB1 = 'database/e-learning.db'
-    
+
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
+app.register_blueprint(users)
+
 """
 Variables
 """
@@ -38,7 +42,7 @@ def addblog():
             data = request.form
         with open('blogdata.csv','+a') as fd:
             fieldnames = ["Name","Email","Date","Title","Content"]
-            writer=csv.DictWriter(fd, fieldnames=fieldnames)   
+            writer=csv.DictWriter(fd, fieldnames=fieldnames)
             writer.writerow({"Name":str(data1[0]),"Email":str(data1[1]),'Date':str('12-12-2020'),"Title":str(data['title']),"Content":str(data['desc'])})
         pqr = []
         with open('blogdata.csv','rt')as f:
@@ -49,7 +53,7 @@ def addblog():
         return render_template("blog.html",data = pqr)
     else:
         return render_template('Home.html',data='PLease Login To add BLOG')
-    
+
 pqr = []
 with open('blogdata.csv','rt')as f:
     data = csv.reader(f)
@@ -95,7 +99,7 @@ def getdata():
             cur.execute("select * from userlogin where mail like '"+u+"' AND pwd like '"+p+"'")
             con.commit()
             data = cur.fetchall()
-            
+
             if data:
                 session['user'] = data[0]
                 return render_template('home_logIN.html',data = data)
