@@ -1,168 +1,132 @@
 <html>
-<HEAD>
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/home1.css')}}">
-	<title>My College</title>
-</HEAD>
-<body>
-	<div id=bodycover>
-	</div>
-	<div id=bodymain>
-	<div id= "head">
 
+  <HEAD>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/home1.css')}}">
+    <title>My College</title>
+  </HEAD>
 
-	<div class="navbar">
-  <a href="/">Home</a>
-  <a href="#features">Features</a>
-  <a href="/blog">Blog</a>
-
-  <div class="dropdown">
-    <button class="dropbtn">Course
-      <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-content">
-      <a href="#ds">Data Structure</a>
-      <a href="#automatatheory">Automata Theory</a>
-      <a href="#db">DBMS</a>
+  <body>
+    <div id=bodycover>
     </div>
-  </div>
+    <div id=bodymain>
+      <div id="head"></div>
+      <div id="body">
+        <div id="content">
+          <div id="content1" style="border-left: 3px solid white;padding-left: 3%;">
+            JMIT Radaur is one of the best engineering college in haryana having a successful track record of 100% placements.
 
+          </div>
+        </div>
+        <div id="registeration">
+          <div style="border: 1px solid #abc;height: 450px;width:400px;">
+            <div class="container">
+              <h1 id="signinhead" style="padding: 35% 0 0 30%;" onclick="signINUP(this);">
+                SIGN IN {%if data%}
+                <script>
+                  alert('{{data}}');
+                </script>
+                {%endif%}
+              </h1>
+              <div id="signin">
+                {%if data%} Please Re-Enter your Details {%else%}
+                <p>Please Fill This Detail to Login Into Your Account.</p>
+                {%endif%}
+                <form action="/getdata/" method="post">
+                  <label for="email">
+                    <b>Email</b>
+                  </label>
+                  <input type="text" placeholder="Enter Email" name="email" required="required">
+                  <br/>
+                  <br/>
 
-<div class="dropdown">
-    <button class="dropbtn">Faculty
-      <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-content">
-      <a href="#datastructure">Data Structure</a>
-      <a href="#automata">Automata Theory</a>
-      <a href="#dbms">DBMS</a>
+                  <label for="password">
+                    <b>Password</b>
+                  </label>
+                  <input type="password" placeholder="Enter Password" name="password" required="required">
+                  <br/>
+                  <br/>
+                  <div class="clearfix">
+                    <button type="submit" class="signupbtn">Login</button>
+                    <button type="submit" class="loginbtn" onclick="signINUP1(this)">Back</button>
+                  </div>
+                </form>
+              </div>
+              <div id="MidLine" style="border: 2px solid black;width: 100%;border-radius: 75%;"></div>
+              <h1 id="signuphead" style="padding:0 0 0 30%;" onclick="signINUP(this);">
+                SIGN UP </h1>
+              <div id="signup">
+                <p>Please Fill This Form to Create Your Account.</p>
+                <form action="/getdata/" method="post">
+                  <label for="name">
+                    <b>Name</b>
+                  </label>
+                  <input type="text" placeholder="Enter Name" name="name" required="required">
+                  <br/>
+                  <br/>
+
+                  <label for="email">
+                    <b>Email</b>
+                  </label>
+                  <input type="text" placeholder="Enter Email" name="email" required="required">
+                  <br/>
+                  <br/>
+
+                  <label for="password">
+                    <b>Password</b>
+                  </label>
+                  <input type="password" placeholder="Enter Password" name="password" required="required">
+                  <br/>
+                  <br/>
+                  <label for="contact">
+                    <b>Contact</b>
+                  </label>
+                  <input type="text" placeholder="Contact Number" name="contact" required="required">
+                  <br/>
+                  <br/>
+
+                  <div class="clearfix">
+                    <button type="submit" class="signupbtn">Register</button>
+                    <button type="submit" class="loginbtn" onclick="signINUP1(this);">Back</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
+  </body>
+  <script type="text/javascript">
+    function signINUP(c) {
+      document.getElementById('MidLine').style.display = 'None';
+      if (c.id == 'signinhead') {
+        document.getElementById('signuphead').style.display = 'None';
+        document.getElementById('signin').style.display = 'block';
+        document.getElementById('signinhead').style.padding = '0 0 0 0';
+      } else {
+        document.getElementById('signinhead').style.display = 'None';
+        document.getElementById('signup').style.display = 'block';
+        document.getElementById('signuphead').style.padding = '0 0 0 0';
 
+      }
+    }
 
-<div class="dropdown">
-    <button class="dropbtn">Careers
-      <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-content">
-      <a href="#companies">Companies</a>
-      <a href="#recent">Frequently Asked Questions</a>
-      <a href="#events">Events</a>
-    </div>
-  </div>
+    function signINUP1(c) {
+      document.getElementById('signuphead').style.padding = '0% 0 0 30%';
+      document.getElementById('signinhead').style.padding = '35% 0 0 30%';
+      document.getElementById('MidLine').style.display = 'block';
+      document.getElementById('signup').style.display = 'none';
+      document.getElementById('signin').style.display = 'none';
+      document.getElementById('signinhead').style.display = 'block';
+      document.getElementById('signuphead').style.display = 'block';
 
-
-<div class="dropdown">
-    <button class="dropbtn">Practice
-      <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-content">
-      <a href="#ock">Mock Test</a>
-      <a href="#aptitude">Aptitude</a>
-      <a href="#rogramming">Programming MCQ</a>
-
-    </div>
-  </div>
-<a href="#Contact">Contact Us</a>
-</div>
-
-
-	<img src="{{ url_for('static',filename='image/clglogo.jpg')}}" alt="CollegeLogo" width="250" height="85">
-</div>
-<div id="body">
-<div id="content">
-	<div id="content1" style="border-left: 3px solid white;padding-left: 3%;">
-	JMIT Radaur is one of the best engineering college in haryana having a successful track record of 100% placements.
-
-	</div></div>
-	<div id="registeration">
-		<div style="border: 1px solid #abc;height: 450px;width:400px;">
-			<div class="container">
-				<h1 id="signinhead" style="padding: 35% 0 0 30%;" onclick="signINUP(this);">
-					SIGN IN
-				{%if data%}
-<script>
-				alert('{{data}}');
-</script>
-				{%endif%}
-			</h1>
-		<div id= "signin">
-			{%if data%}
-			Please Re-Enter your Details
-			{%else%}
-			<p>Please Fill This Detail to Login Into Your Account.</p>
-			{%endif%}
-	<form action="/getdata/" method="post" >
-			<label for="email"><b>Email</b></label>
-				<input type="text" placeholder="Enter Email" name="email" required="required">
-				<br/><br/>
-
-			<label for="password"><b>Password</b></label>
-				<input type="password" placeholder="Enter Password" name="password" required="required">
-				<br/><br/>
-			<div class="clearfix">
-				<button type="submit" class="signupbtn">Login</button>
-				<button type="submit" class="loginbtn" onclick="signINUP1(this)">Back</button>
-			</div>
-		</form>
-			</div>
-				<div id="MidLine" style="border: 2px solid black;width: 100%;border-radius: 75%;"></div>
-				<h1 id="signuphead" style="padding:0 0 0 30%;" onclick="signINUP(this);">
-					SIGN UP </h1>
-				<div id="signup">
-					<p>Please Fill This Form to Create Your Account.</p>
-				<form action="/getdata/" method="post" >
-				<label for="name"><b>Name</b></label>
-					<input type="text" placeholder="Enter Name" name="name" required="required">
-					<br/><br/>
-
-				<label for="email"><b>Email</b></label>
-					<input type="text" placeholder="Enter Email" name="email" required="required">
-					<br/><br/>
-
-				<label for="password"><b>Password</b></label>
-					<input type="password" placeholder="Enter Password" name="password" required="required">
-					<br/><br/>
-				<label for="contact"><b>Contact</b></label>
-					<input type="text" placeholder="Contact Number" name="contact" required="required">
-					<br/><br/>
-
-				<div class="clearfix">
-					<button type="submit" class="signupbtn">Register</button>
-					<button type="submit" class="loginbtn" onclick="signINUP1(this);">Back</button>
-				</div>
-			</form>
-			</div>
-			</div>
-		</div>
-	</div>
-</div>
-</div>
-</body>
-<script type="text/javascript">
-	function signINUP(c) {
-			document.getElementById('MidLine').style.display = 'None';
-		if(c.id=='signinhead')
-		{
-			document.getElementById('signuphead').style.display = 'None';
-			document.getElementById('signin').style.display = 'block';
-			document.getElementById('signinhead').style.padding = '0 0 0 0';
-	}
-		else{
-			document.getElementById('signinhead').style.display = 'None';
-			document.getElementById('signup').style.display = 'block';
-			document.getElementById('signuphead').style.padding = '0 0 0 0';
-
-		}
-	}
-	function signINUP1(c) {
-			document.getElementById('signuphead').style.padding = '0% 0 0 30%';
-			document.getElementById('signinhead').style.padding = '35% 0 0 30%';
-			document.getElementById('MidLine').style.display = 'block';
-			document.getElementById('signup').style.display = 'none';
-			document.getElementById('signin').style.display = 'none';
-			document.getElementById('signinhead').style.display = 'block';
-			document.getElementById('signuphead').style.display = 'block';
-
-	}
-</script>
+    }
+		fetch("/static/html/menu.html")
+		  .then(response => {
+		    return response.text();
+		  })
+		  .then(data => {
+		    document.getElementById("head").innerHTML = data;
+		  });
+  </script>
 </html>
