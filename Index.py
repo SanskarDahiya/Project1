@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request,session,redirect,g
 import os
-
+import csv
 import sqlite3 as sql
 DB1 = 'database/e-learning.db'
-
+    
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 """
@@ -14,46 +14,59 @@ c1=["2017","DAFFODIL SOFTWARE LTD., GURUGRAM","http://www.unthinkable.co/","---"
 c2=["2018","DAFFODIL SOFTWARE LTD., GURUGRAM","http://www.unthinkable.co/","---","---","2WT/TR/HR","---","January","--- LPA","--- year"]
 c3=["2019","DAFFODIL SOFTWARE LTD., GURUGRAM","http://www.unthinkable.co/",d1,"None","Tech Test(Online),Wrriten Test,TR,HR","Gurugram","January","4-5 LPA","1.5 year"]
 C_List=[c1,c2,c3]
+
 @app.route("/", methods=['GET', 'POST'])
 def index():
-    if request.method=='POST':
-        session.pop['user',None]
-        if request.form['password'] == 'password':
-            session['user'] = request.form['email']
-            return redirect('home_logIN.html')
-    # return render_template("Companies.html",data=C_List,len = len(C_List)-1)
-    return render_template("Home.html")
+    if 'user' in session:
+        return render_template('home_logIN.html',data = session['user'])
+    else:
+        return render_template("Home.html")
 
 @app.route('/getsession')
 def getsession():
+    data = session['user']
+    return data[0]+data[1]+data[2]+data[3]
+
+
+@app.route("/addblog", methods=['GET', 'POST'])
+def addblog():
+    global pqr
     if 'user' in session:
-        return session['user']
-    return 'Please Login First'
+        data = 0
+        data1 = session['user']
+        if request.method=='POST':
+            data = request.form
+        with open('blogdata.csv','+a') as fd:
+            fieldnames = ["Name","Email","Date","Title","Content"]
+            writer=csv.DictWriter(fd, fieldnames=fieldnames)   
+            writer.writerow({"Name":str(data1[0]),"Email":str(data1[1]),'Date':str('12-12-2020'),"Title":str(data['title']),"Content":str(data['desc'])})
+        pqr = []
+        with open('blogdata.csv','rt')as f:
+            data = csv.reader(f)
+            for row in data:
+                if(row):
+                    pqr.append(row)
+        return render_template("blog.html",data = pqr)
+    else:
+        return render_template('Home.html',data='PLease Login To add BLOG')
+    
+pqr = []
+with open('blogdata.csv','rt')as f:
+    data = csv.reader(f)
+    for row in data:
+        if(row):
+            pqr.append(row)
 
-@app.route('/dropsession')
-def dropsession():
-    session.pop['user',None]
-    return 'Dropped!'
-
-
-@app.route('/home_logIN')
-def home_logIN():
-    if g.user:
-        return render_template("home_logIN,html")
-    return redirect('Home')
-
-@app.before_request
-def before_request():
-    g.user = None
-    if 'user' in session:
-        g.user = session['user']
-
-
-pqr = [['JINDU','j@j.com','12-12-1963','TABLES',"""Tables require a bit of study and practice, but are well worth the effort because they are the single most powerful tool for controlling page appearance! Look for a couple of "neat tricks" at the bottom of the pageA table may have only one cell, or many. A typical table might look like:"""],
-       ['CHUZZA','C@chuza.com','12-12-2020','Heading','Description']]
 
 @app.route("/blog/")
 def blog_page():
+    pqr = []
+    with open('blogdata.csv','rt')as f:
+        data = csv.reader(f)
+        for row in data:
+            if(row):
+                pqr.append(row)
+
     return render_template("blog.html",data = pqr)
 
 
@@ -82,7 +95,9 @@ def getdata():
             cur.execute("select * from userlogin where mail like '"+u+"' AND pwd like '"+p+"'")
             con.commit()
             data = cur.fetchall()
+            
             if data:
+                session['user'] = data[0]
                 return render_template('home_logIN.html',data = data)
             else:
                 return render_template('Home.html',data='Invalid Username or Password')
