@@ -51,11 +51,11 @@
   <div id="body">
     <div id="content">
       <div id="content1" style="border-left: 3px solid white;padding-left: 5%;">
-        <form action="/addblog" method="post" id='post_' style="display:block">
+        <form action="/blog/addtoblog" method="POST" id='post_' style="display:block">
             <br/>
             <input style="" type='text' placeholder="Title" name="title" required='required'/>
             <br/><br/>
-            <textarea style="min-height:310px" name="desc"></textarea>
+            <textarea style="min-height:310px" name="content"></textarea>
             <br/><br/>
             <input style="" type='submit' value="POST"/>
             <br/>
@@ -81,17 +81,17 @@
           {% for key in data %}
           <table style="width:513px;height:80px;" onclick="post(this);">
             <tr>
-                <td width="80%" rowspan="2" id='T_head'><h1>{{key[3]}}</h1></td>
-                <td ALIGN=RIGHT VALIGN=TOP id='T_date'>{{key[2]}}</td>
+                <td width="80%" rowspan="2" id='T_head'><h1>{{key['title']}}</h1></td>
+                <td ALIGN=RIGHT VALIGN=TOP id='T_date'>{{key['date']}}</td>
             </tr>
             <tr>
-                <td ALIGN=center valign=center id='T_name'>{{key[0]}}</td>
+                <td ALIGN=center valign=center id='T_name'>{{key['name']}}</td>
             </tr>
             <tr height='35%'>
-                <td colspan='2' id='T_Desc'>{{key[4][:70]+'.........'}}</td>
+                <td colspan='2' id='T_Desc'>{{key['content'][:70]+'.........'}}</td>
             </tr>
             <tr style="display:none;">
-              <td colspan='2' id='T_Desc'>{{key[4]}}</td>
+              <td colspan='2' id='T_Desc'>{{key['content']}}</td>
             </tr>
           </table>
         {% endfor %}
